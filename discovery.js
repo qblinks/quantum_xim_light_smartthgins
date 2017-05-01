@@ -39,13 +39,21 @@ function get_list(option, get_state_callback) {
  */
 function discovery(options, callback) {
   const callback_option = JSON.parse(JSON.stringify(options));
-  // this is an empty function to be implemented or a place holder
   callback_option.list = [];
   get_list(options, (result) => {
     Object.keys(result.switches).forEach((key) => {
       const light = {};
-      light.device_name = result.switches[key].devtest.name;
-      light.device_id = result.switches[key].devtest.id;
+      light.light_status = {};
+      light.device_name = result.switches[key].label;
+      light.device_id = result.switches[key].id;
+      if (result.switches[key].switch === 'on') {
+        light.light_status.onoff = true;
+      } else {
+        light.light_status.onoff = false;
+      }
+      light.light_status.hue = result.switches[key].hue;
+      light.light_status.saturation = result.switches[key].saturation;
+      light.light_status.brightness = result.switches[key].level;
       callback_option.list.push(light);
     });
     callback(callback_option);

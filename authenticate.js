@@ -28,7 +28,6 @@ function get_token(options, tokenCB) {
   request(tokenres, (error, response, body) => {
     if (error) throw new Error(error);
     const contact = JSON.parse(body);
-    console.log(contact);
     tokenCB(contact);
   });
 }
@@ -48,8 +47,7 @@ function get_endpoint(access_token, callback) {
   request(tokenres, (error, response, body) => {
     if (error) throw new Error(error);
     const contact = JSON.parse(body);
-    console.log(contact);
-    callback(contact);
+    callback(contact[0]);
   });
 }
 /**
