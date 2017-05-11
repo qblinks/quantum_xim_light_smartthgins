@@ -23,11 +23,12 @@ const request = require('request');
 function goaction(option, callback) {
   const goaction_options = {
     method: 'PUT',
-    url: `${option.xim_content.uri}/switchAction/${option.device_id}/${option.command}`,
+    url: `${option.xim_content.uri}/switchAction/${option.device_id}/${option.command}/${option.action.brightness}`,
     headers: {
       authorization: `Bearer ${option.xim_content.access_token}`,
     },
   };
+  console.log(goaction_options.url);
   request(goaction_options, (error) => {
     // const contact = JSON.parse(body);
     if (error) {
