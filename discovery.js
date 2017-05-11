@@ -39,6 +39,18 @@ function get_list(option, get_state_callback) {
  */
 function discovery(options, callback) {
   const callback_option = JSON.parse(JSON.stringify(options));
+  callback_option.result = {};
+   // check xim content
+  if (typeof options.xim_content === 'undefined' || typeof options.xim_content.access_token === 'undefined') {
+    callback_option.result.err_no = 2;
+    callback_option.result.err_msg = 'access_token undefined';
+    callback(callback_option);
+  }
+  if (typeof options.xim_content.uri === 'undefined') {
+    callback_option.result.err_no = 3;
+    callback_option.result.err_msg = 'uri undefined';
+    callback(callback_option);
+  }
   callback_option.list = [];
   get_list(options, (result) => {
     Object.keys(result.switches).forEach((key) => {
@@ -56,6 +68,8 @@ function discovery(options, callback) {
       light.light_status.brightness = result.switches[key].level;
       callback_option.list.push(light);
     });
+    callback_option.result.err_no = 0;
+    callback_option.result.err_msg = 'ok';
     callback(callback_option);
   });
 }

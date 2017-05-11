@@ -47,7 +47,12 @@ function action(option, callback) {
   // check xim content
   if (typeof option.xim_content === 'undefined' || typeof option.xim_content.access_token === 'undefined') {
     callback_option.result.err_no = 2;
-    callback_option.result.err_msg = 'xim_content undefined or access_token undefined';
+    callback_option.result.err_msg = 'access_token undefined';
+    callback(callback_option);
+  }
+  if (typeof option.xim_content.uri === 'undefined') {
+    callback_option.result.err_no = 3;
+    callback_option.result.err_msg = 'uri undefined';
     callback(callback_option);
   }
   // set onoff
@@ -58,6 +63,8 @@ function action(option, callback) {
       callback_option.command = 'off';
     }
   }
+  // set color
+
   goaction(callback_option, (result) => {
     if (typeof result !== 'undefined') {
       callback_option.result.err_no = 0;
