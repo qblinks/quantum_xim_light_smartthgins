@@ -27,10 +27,12 @@
     "eslint-plugin-react": "^6.7.1"
   },
   "dependencies": {
-    "winston": "^2.3.1",
     "color-convert": "^1.8.2",
+    "commander": "^2.9.0",
     "mathjs": "^3.8.1",
+    "mute": "^2.0.6",
+    "path": "^0.12.7",
     "request": "^2.79.0",
-    "path": "^0.12.7"
+    "winston": "^2.3.1"
   }
 }
