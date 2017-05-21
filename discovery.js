@@ -63,7 +63,7 @@ function discovery(options, callback) {
       } else {
         light.light_status.onoff = false;
       }
-      light.light_status.hue = result.switches[key].hue;
+      light.light_status.hue = parseInt((result.switches[key].hue * 360) / 100, 10);
       light.light_status.saturation = result.switches[key].saturation;
       light.light_status.brightness = result.switches[key].level;
       callback_option.list.push(light);

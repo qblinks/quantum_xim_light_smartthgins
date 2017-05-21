@@ -70,7 +70,7 @@ function stat(options, callback) {
     } else {
       light.light_status.onoff = false;
     }
-    light.light_status.hue = result.hue;
+    light.light_status.hue = parseInt((result.hue * 360) / 100, 10);
     light.light_status.saturation = result.saturation;
     light.light_status.brightness = result.level;
     callback_option.list.push(light);

@@ -13,6 +13,7 @@
 
 const request = require('request');
 
+let step;
 /**
  * action to api
  *
@@ -44,6 +45,7 @@ function goaction(option, callback) {
 function action(option, callback) {
   const callback_option = JSON.parse(JSON.stringify(option));
   callback_option.result = {};
+  step = 4;
   // check xim content
   if (typeof option.xim_content === 'undefined' || typeof option.xim_content.access_token === 'undefined') {
     callback_option.result.err_no = 2;
@@ -55,7 +57,6 @@ function action(option, callback) {
     callback_option.result.err_msg = 'uri undefined';
     callback(callback_option);
   }
-  console.log(option.action);
   // set onoff
   if (typeof option.action.onoff !== 'undefined') {
     callback_option.value = 1;
@@ -71,7 +72,7 @@ function action(option, callback) {
       }
     });
   }
-  // set color
+  // set brightness
   if (typeof option.action.brightness !== 'undefined') {
     callback_option.value = option.action.brightness;
     callback_option.command = 'bri';
@@ -82,6 +83,7 @@ function action(option, callback) {
       }
     });
   }
+  // set saturation
   if (typeof option.action.saturation !== 'undefined') {
     callback_option.value = option.action.saturation;
     callback_option.command = 'sat';
@@ -92,6 +94,7 @@ function action(option, callback) {
       }
     });
   }
+  // set hue
   if (typeof option.action.hue !== 'undefined') {
     callback_option.value = parseInt((option.action.hue * 100) / 360, 10);
     callback_option.command = 'hue';
@@ -100,14 +103,16 @@ function action(option, callback) {
         callback_option.result.err_no = 0;
         callback_option.result.err_msg = 'ok';
       }
-        delete callback_option.device_id;
+    });
+  }
+
+   callback_option.result.err_no = 0;
+        callback_option.result.err_msg = 'ok';
+  delete callback_option.device_id;
   delete callback_option.action;
   delete callback_option.command;
   delete callback_option.value;
   callback(callback_option);
-    });
-  }
-
 }
 
 /**
