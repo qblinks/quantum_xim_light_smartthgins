@@ -23,12 +23,11 @@ const request = require('request');
 function goaction(option, callback) {
   const goaction_options = {
     method: 'PUT',
-    url: `${option.xim_content.uri}/switchAction/${option.device_id}/${option.command}/${option.action.brightness}`,
+    url: `${option.xim_content.uri}/switchAction/${option.device_id}/${option.command}/${option.value}`,
     headers: {
       authorization: `Bearer ${option.xim_content.access_token}`,
     },
   };
-  console.log(goaction_options.url);
   request(goaction_options, (error) => {
     // const contact = JSON.parse(body);
     if (error) {
@@ -56,26 +55,59 @@ function action(option, callback) {
     callback_option.result.err_msg = 'uri undefined';
     callback(callback_option);
   }
+  console.log(option.action);
   // set onoff
   if (typeof option.action.onoff !== 'undefined') {
+    callback_option.value = 1;
     if (option.action.onoff === true) {
       callback_option.command = 'on';
     } else {
       callback_option.command = 'off';
     }
+    goaction(callback_option, (result) => {
+      if (typeof result !== 'undefined') {
+        callback_option.result.err_no = 0;
+        callback_option.result.err_msg = 'ok';
+      }
+    });
   }
   // set color
+  if (typeof option.action.brightness !== 'undefined') {
+    callback_option.value = option.action.brightness;
+    callback_option.command = 'bri';
+    goaction(callback_option, (result) => {
+      if (typeof result !== 'undefined') {
+        callback_option.result.err_no = 0;
+        callback_option.result.err_msg = 'ok';
+      }
+    });
+  }
+  if (typeof option.action.saturation !== 'undefined') {
+    callback_option.value = option.action.saturation;
+    callback_option.command = 'sat';
+    goaction(callback_option, (result) => {
+      if (typeof result !== 'undefined') {
+        callback_option.result.err_no = 0;
+        callback_option.result.err_msg = 'ok';
+      }
+    });
+  }
+  if (typeof option.action.hue !== 'undefined') {
+    callback_option.value = parseInt((option.action.hue * 100) / 360, 10);
+    callback_option.command = 'hue';
+    goaction(callback_option, (result) => {
+      if (typeof result !== 'undefined') {
+        callback_option.result.err_no = 0;
+        callback_option.result.err_msg = 'ok';
+      }
+        delete callback_option.device_id;
+  delete callback_option.action;
+  delete callback_option.command;
+  delete callback_option.value;
+  callback(callback_option);
+    });
+  }
 
-  goaction(callback_option, (result) => {
-    if (typeof result !== 'undefined') {
-      callback_option.result.err_no = 0;
-      callback_option.result.err_msg = 'ok';
-    }
-    delete callback_option.device_id;
-    delete callback_option.action;
-    delete callback_option.command;
-    callback(callback_option);
-  });
 }
 
 /**
