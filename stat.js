@@ -65,6 +65,7 @@ function stat(options, callback) {
     light.light_status = {};
     light.device_name = result.label;
     light.device_id = result.id;
+    light.is_group = false;
     if (result.switch === 'on') {
       light.light_status.onoff = true;
     } else {

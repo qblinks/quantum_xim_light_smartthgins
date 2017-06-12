@@ -58,6 +58,7 @@ function discovery(options, callback) {
       light.light_status = {};
       light.device_name = result.switches[key].label;
       light.device_id = result.switches[key].id;
+      light.is_group = false;
       if (result.switches[key].switch === 'on') {
         light.light_status.onoff = true;
       } else {
