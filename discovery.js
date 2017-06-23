@@ -46,7 +46,7 @@ function discovery(options, callback) {
     callback_option.result.err_msg = 'access_token undefined';
     callback(callback_option);
   }
-  if (typeof options.xim_content.uri === 'undefined') {
+  if (typeof options.xim_content.uri) {
     callback_option.result.err_no = 3;
     callback_option.result.err_msg = 'uri undefined';
     callback(callback_option);
