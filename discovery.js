@@ -52,6 +52,7 @@ function discovery(options, callback) {
     callback(callback_option);
   }
   callback_option.list = [];
+  callback_option.xim_content.light_onoff = [];
   get_list(options, (result) => {
     Object.keys(result.switches).forEach((key) => {
       const light = {};
@@ -67,6 +68,7 @@ function discovery(options, callback) {
       light.light_status.hue = parseInt((result.switches[key].hue * 360) / 100, 10);
       light.light_status.saturation = result.switches[key].saturation;
       light.light_status.brightness = result.switches[key].level;
+      callback_option.xim_content.light_onoff[light.device_id] = light.light_status.onoff;
       callback_option.list.push(light);
     });
     callback_option.result.err_no = 0;
