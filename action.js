@@ -56,7 +56,7 @@ function action(option, callback) {
   }
   let off = false;
   // set onoff
-  if (typeof option.action.onoff !== 'undefined') {
+  if (typeof option.action.onoff !== 'undefined' || typeof option.action.toggle !== 'undefined') {
     callback_option.value = 1;
     if (option.action.onoff === true) {
       callback_option.command = 'on';

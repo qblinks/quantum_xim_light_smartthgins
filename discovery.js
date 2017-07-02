@@ -52,7 +52,7 @@ function discovery(options, callback) {
     callback(callback_option);
   }
   callback_option.list = [];
-  callback_option.xim_content.light_onoff = [];
+  callback_option.xim_content.light_onoff = {};
   get_list(options, (result) => {
     Object.keys(result.switches).forEach((key) => {
       const light = {};
