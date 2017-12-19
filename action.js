@@ -56,13 +56,21 @@ function action(option, callback) {
   }
   let off = false;
   // set onoff
-  if (typeof option.action.onoff !== 'undefined') {
+  if (typeof option.action.onoff !== 'undefined' || typeof option.action.toggle !== 'undefined') {
     callback_option.value = 1;
     if (option.action.onoff === true) {
       callback_option.command = 'on';
-    } else {
+    } else if (option.action.onoff === false) {
       callback_option.command = 'off';
       off = true;
+    } else if (option.action.toggle === true && typeof option.xim_content.light_onoff !== 'undefined') {
+      if (option.xim_content.light_onoff[option.device_id] === true) {
+        callback_option.command = 'off';
+        callback_option.xim_content.light_onoff[option.device_id] = false;
+      } else {
+        callback_option.command = 'on';
+        callback_option.xim_content.light_onoff[option.device_id] = true;
+      }
     }
     goaction(callback_option, (result) => {
       if (typeof result !== 'undefined') {
@@ -75,6 +83,9 @@ function action(option, callback) {
   if (typeof option.action.brightness !== 'undefined' && off === false) {
     callback_option.value = option.action.brightness;
     callback_option.command = 'bri';
+    if (callback_option.value === 0) {
+      callback_option.value = 1;
+    }
     goaction(callback_option, (result) => {
       if (typeof result !== 'undefined') {
         callback_option.result.err_no = 0;
@@ -86,6 +97,9 @@ function action(option, callback) {
   if (typeof option.action.saturation !== 'undefined' && off === false) {
     callback_option.value = option.action.saturation;
     callback_option.command = 'sat';
+    if (callback_option.value === 0) {
+      callback_option.value = 1;
+    }
     goaction(callback_option, (result) => {
       if (typeof result !== 'undefined') {
         callback_option.result.err_no = 0;
